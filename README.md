@@ -3,6 +3,7 @@
 Thank you for taking the time to review this project. Your attention is greatly appreciated. Below are some key points to consider:
 
 - **Simplified Approach:** Following the task requirements to keep it stupid simple, I've chosen to use a very minimalistic approach.
+- **Missing Mechanics:** I've intentionally left out some mechanics that would be required for a real-world application, such as multiple queue workers, Laravel Horizon, etc.
 - **Arbitrary Timings:** The scheduler and caching durations have been selected without extensive real-world analysis.
 - **Data Sources:** The data sources utilized include `NewsAPI`, `The Guardian`, and `The New York Times`.
 - **Documentation:** The API documentation has been created using the `Swagger` methodology.
