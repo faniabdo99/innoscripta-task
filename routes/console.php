@@ -13,4 +13,3 @@ Artisan::command('inspire', function () {
 Schedule::job(new FetchArticlesJob('newsapi'))->everyFiveMinutes();
 Schedule::job(new FetchArticlesJob('theguardian'))->everyFiveMinutes();
 Schedule::job(new FetchArticlesJob('thenewyorktimes'))->everyFiveMinutes();
-

@@ -37,7 +37,10 @@ class ArticleController extends Controller
             $articles->whereDate('created_at', Carbon::parse($request->date));
         }
         
-        return $articles->paginate($perPage, ['*'], 'page', $page);
+        $cacheKey = 'articles_page_' . $page . '_per_page_' . $perPage . '_title_' . $request->title . '_category_' . $request->category . '_source_' . $request->source . '_author_' . $request->author . '_date_' . $request->date;
+        return Cache::remember($cacheKey, 240, function () use ($articles, $perPage, $page) {
+            return $articles->paginate($perPage, ['*'], 'page', $page);
+        });
     }
 
     /**
@@ -51,7 +54,7 @@ class ArticleController extends Controller
      */
     public function show(Article $article)
     {
-        return Cache::remember('article_' . $article->id, 180, function () use ($article) {
+        return Cache::remember('article_' . $article->id, 300, function () use ($article) {
             return $article;
         });
     }
