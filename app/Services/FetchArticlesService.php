@@ -9,6 +9,12 @@ use Illuminate\Support\Str;
 
 class FetchArticlesService {
     /**
+     * Note: I've intentionally ignored error handling and logging in this service following the KISS principle and giving that this is a background job
+     * we do have the luxury of having it failing silently and not affecting the user while the schedule will retry the job every 5 minutes
+     * There could be error handler, Error logging using the Log facade and a retry mechanism could be implemented to handle errors more gracefully
+     */
+
+    /**
      * Execute the service to fetch articles from various sources.
      *
      * This method orchestrates the fetching of articles from NewsAPI,
