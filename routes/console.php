@@ -10,6 +10,6 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote')->hourly();
 
 // Fetch articles every 5 minutes, this ensures the data are up to date with minimal impact on the server
-Schedule::job(new FetchArticlesJob('newsapi'))->everyFiveMinutes();
-Schedule::job(new FetchArticlesJob('theguardian'))->everyFiveMinutes();
-Schedule::job(new FetchArticlesJob('thenewyorktimes'))->everyFiveMinutes();
+Schedule::job(new FetchArticlesJob('newsapi'))->everyFiveSeconds();
+Schedule::job(new FetchArticlesJob('theguardian'))->everyFiveSeconds();
+Schedule::job(new FetchArticlesJob('thenewyorktimes'))->everyFiveSeconds();
