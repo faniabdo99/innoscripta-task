@@ -13,9 +13,9 @@ class ArticleController extends Controller {
      *
      * This method retrieves all articles from the cache if available,
      * otherwise it fetches them from the database and caches the result for 240 seconds (4 minutes).
-     * 
+     *
      * @return \Illuminate\Database\Eloquent\Collection
-    */
+     */
     public function index(Request $request) {
         $page = $request->page ?? 1;
         $perPage = $request->per_page ?? 10;
