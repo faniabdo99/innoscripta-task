@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('articles', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('snippet');
+            $table->string('title')->default('No title');
+            $table->string('snippet')->nullable();
             $table->string('image')->default('https://picsum.photos/600/250');
-            $table->text('content');
+            $table->text('content')->nullable();
             $table->enum('source', ['news-api', 'the-guardian', 'new-york-times'])->index();
-            $table->string('author')->index();
-            $table->string('category')->index();
+            $table->string('author')->nullable()->index();
+            $table->string('category')->nullable()->index();
             $table->timestamps();
         });
     }
