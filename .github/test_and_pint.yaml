@@ -1,0 +1,52 @@
+name: Test and Pint the API
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ dev, main ]
+  pull_request:
+    branches: [ dev, main ]
+
+jobs:
+  test_and_pint:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    # Setup PHP Environment
+    - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
+      with:
+        php-version: '8.3'
+
+    # Checkout the repository
+    - uses: actions/checkout@v4
+
+    # Copy .env
+    - name: Copy .env
+      run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+
+    # Install Dependencies
+    - name: Install Dependencies
+      run: composer update --no-progress
+
+    # Generate key
+    - name: Generate key
+      run: php artisan key:generate
+
+    # Create Database
+    - name: Create Database
+      run: |
+        mkdir -p database
+        touch database/database.sqlite
+
+    # Execute tests (Unit and Feature tests) via PHPUnit
+    - name: Execute tests (Unit and Feature tests) via PHPUnit
+      env:
+        DB_CONNECTION: sqlite
+        DB_DATABASE: database/database.sqlite
+      run: php artisan test
+
+    # Run Laravel Pint to ensure code style is consistent
+    # --test is used to only report issues, not fix them
+    - name: Run Laravel Pint
+      run: ./vendor/bin/pint --test

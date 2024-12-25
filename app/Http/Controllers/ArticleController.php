@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
-use Carbon\Carbon;
-class ArticleController extends Controller
-{
+
+class ArticleController extends Controller {
     /**
      * Display a listing of the articles.
      *
@@ -16,13 +16,12 @@ class ArticleController extends Controller
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function index(Request $request)
-    {
+    public function index(Request $request) {
         $page = $request->query('page', 1);
         $perPage = $request->query('per_page', 10);
         $articles = Article::query();
         if ($request->title) {
-            $articles->where('title', 'like', '%' . $request->title . '%');
+            $articles->where('title', 'like', '%'.$request->title.'%');
         }
         if ($request->category) {
             $articles->where('category', $request->category);
@@ -36,8 +35,9 @@ class ArticleController extends Controller
         if ($request->date) {
             $articles->whereDate('created_at', Carbon::parse($request->date));
         }
-        
-        $cacheKey = 'articles_page_' . $page . '_per_page_' . $perPage . '_title_' . $request->title . '_category_' . $request->category . '_source_' . $request->source . '_author_' . $request->author . '_date_' . $request->date;
+
+        $cacheKey = 'articles_page_'.$page.'_per_page_'.$perPage.'_title_'.$request->title.'_category_'.$request->category.'_source_'.$request->source.'_author_'.$request->author.'_date_'.$request->date;
+
         return Cache::remember($cacheKey, 240, function () use ($articles, $perPage, $page) {
             return $articles->paginate($perPage, ['*'], 'page', $page);
         });
@@ -49,12 +49,11 @@ class ArticleController extends Controller
      * This method retrieves a specific article from the cache if available,
      * otherwise it fetches it from the database and caches the result for 180 seconds.
      *
-     * @param \App\Models\Article $article The article instance to be displayed.
+     * @param  \App\Models\Article  $article  The article instance to be displayed.
      * @return \App\Models\Article The article instance.
      */
-    public function show(Article $article)
-    {
-        return Cache::remember('article_' . $article->id, 300, function () use ($article) {
+    public function show(Article $article) {
+        return Cache::remember('article_'.$article->id, 300, function () use ($article) {
             return $article;
         });
     }
