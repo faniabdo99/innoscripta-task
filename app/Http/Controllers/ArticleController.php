@@ -12,13 +12,13 @@ class ArticleController extends Controller {
      * Display a listing of the articles.
      *
      * This method retrieves all articles from the cache if available,
-     * otherwise it fetches them from the database and caches the result for 60 seconds.
-     *
+     * otherwise it fetches them from the database and caches the result for 240 seconds (4 minutes).
+     * 
      * @return \Illuminate\Database\Eloquent\Collection
-     */
+    */
     public function index(Request $request) {
-        $page = $request->query('page', 1);
-        $perPage = $request->query('per_page', 10);
+        $page = $request->page ?? 1;
+        $perPage = $request->per_page ?? 10;
         $articles = Article::query();
         if ($request->title) {
             $articles->where('title', 'like', '%'.$request->title.'%');
@@ -47,9 +47,9 @@ class ArticleController extends Controller {
      * Display the specified article.
      *
      * This method retrieves a specific article from the cache if available,
-     * otherwise it fetches it from the database and caches the result for 180 seconds.
+     * otherwise it fetches it from the database and caches the result for 300 seconds (5 minutes).
      *
-     * @param  \App\Models\Article  $article  The article instance to be displayed.
+     * @param  \App\Models\Article  $article  The article id to be displayed.
      * @return \App\Models\Article The article instance.
      */
     public function show(Article $article) {
